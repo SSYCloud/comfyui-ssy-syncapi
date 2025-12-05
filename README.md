@@ -1,4 +1,4 @@
-# ComfyUI SSY Cloud Image Generator
+# comfyui-ssy-syncapi Image Generator
 
 一个强大的ComfyUI自定义节点集合，提供**4个专用节点**访问多个**SSY Cloud (胜算云)**同步图像生成和处理模型。
 
@@ -6,23 +6,23 @@
 
 ### 四个专用节点
 
-#### 🌟 SSY Google Generator
+#### 🌟 SSY Google Generator 同步
 支持Google Gemini系列模型：
 - **Google Gemini 2.5 Flash Image** - 最先进的多模态图像生成
 - **Google Gemini 3 Pro Image** - 高级Gemini 3 Pro图像生成
 
-#### 🎨 SSY Doubao Generator  
+#### 🎨 SSY Doubao Generator  同步
 支持ByteDance Doubao系列模型：
 - **Doubao SeeDream 4.5** - 最新字节豆包文生图和图生图
 - **Doubao SeeDream 4.0** - 字节豆包文生图和图生图
 - **Doubao SeeDream 3.0 T2I** - 专用文生图模型
 - **Doubao SeedEdit 3.0 I2I** - 专用图生图模型
 
-#### 🤖 SSY OpenAI Generator
+#### 🤖 SSY OpenAI Generator 同步
 支持OpenAI系列模型：
 - **GPT Image 1** - OpenAI文生图生成
 
-#### 🔧 SSY Bytedance Processor 火山引擎图片编辑节点
+#### 🔧 SSY Bytedance Processor 火山引擎图片编辑节点 同步
 支持图像处理模型：
 - **ByteDance Image Enhance** - AI驱动的图像增强
 - **ByteDance Image Upscale** - 高质量图像放大
@@ -37,7 +37,11 @@
 ✅ **批量生成** - 一次请求生成多张图像  
 ✅ **多种格式支持** - 支持各种宽高比和输出格式  
 
-## 📦 安装
+## 📦 安装方式一
+
+下载zip插件节点文件，然后复制粘贴到ComfyUI\custom_nodes文件夹
+
+## 📦 安装方式二
 
 1. 导航到你的ComfyUI自定义节点目录：
    ```bash
@@ -46,7 +50,7 @@
 
 2. 克隆此仓库：
    ```bash
-   git clone https://github.com/SSYCloud/comfyui-nano-banana-ssy
+   git clone https://github.com/SSYCloud/comfyui-ssy-syncapi
    ```
 
 3. 安装所需依赖：
@@ -60,7 +64,7 @@
 
 ### API密钥设置
 
-你需要一个SSY Cloud API密钥来使用这些节点。从[胜算云](https://shengsuanyun.com)获取你的密钥。
+你需要一个SSY Cloud API密钥来使用这些节点。从[胜算云](https://www.shengsuanyun.com/?from=CH_TOA7WK1F)获取你的密钥。
 
 **三种配置API密钥的方式：**
 
@@ -68,10 +72,6 @@
 2. **环境变量** - 设置`SSY_API_KEY`环境变量
 3. **配置文件** - 首次使用后自动保存到`config.json`
 
-**密钥安全性：**
-- API密钥输入框使用密文显示（password字段）
-- 输入时自动显示为`***`，保护隐私
-- 首次输入后自动保存，后续无需重复输入
 
 ## 🎯 使用方法
 
@@ -90,16 +90,6 @@
 - **size** - 图像尺寸（1K/2K/4K，仅gemini-3-pro支持）
 - **response_modalities** - 响应模态（IMAGE或TEXT_IMAGE）
 
-**请求体格式（自动处理）：**
-```json
-{
-  "model": "google/gemini-2.5-flash-image-preview",
-  "prompt": "your prompt",
-  "aspect_ratio": "1:1",
-  "images": [{"inline_data": {"mime_type": "image/png", "data": "base64..."}}],
-  "response_modalities": ["IMAGE"]
-}
-```
 
 ### 2️⃣ SSY Doubao Generator 🎨
 
@@ -125,19 +115,6 @@
 - **watermark** - 添加AI生成水印
 - **response_format** - 返回格式（b64_json/url）
 
-**请求体格式（自动处理）：**
-```json
-{
-  "model": "bytedance/doubao-seedream-4.5",
-  "prompt": "your prompt",
-  "size": "1024x1024",
-  "quality": "standard",
-  "image": ["data:image/png;base64,..."],
-  "stream": false,
-  "sequential_image_generation": "auto",
-  "sequential_image_generation_options": {"max_count": 4}
-}
-```
 
 ### 3️⃣ SSY OpenAI Generator 🤖
 
@@ -156,17 +133,6 @@
 - **output_compression** - 压缩级别（0-100）
 - **moderation** - 内容审核级别（auto/low）
 
-**请求体格式（自动处理）：**
-```json
-{
-  "model": "openai/gpt-image-1",
-  "prompt": "your prompt",
-  "image": "data:image/png;base64,...",
-  "n": 1,
-  "size": "auto",
-  "quality": "auto"
-}
-```
 
 ### 4️⃣ SSY Bytedance Processor 火山引擎图片编辑节点 🔧
 
@@ -183,60 +149,6 @@
 - **jpg_quality** - JPG质量（0-100）
 - **result_format** - 输出格式（0=png, 1=jpeg）
 
-**请求体格式（自动处理）：**
-```json
-{
-  "model": "openai/gpt-image-1",
-  "prompt": "your prompt",
-  "size": "1024x1024",
-  "quality": "auto",
-  "background": "transparent",
-  "output_format": "png",
-  "output_compression": 90,
-  "moderation": "auto"
-}
-```
-**请求体格式（自动处理）：**
-```json
-{
-  "model": "bytedance/image_upscale",
-  "binary_data_base64": ["base64..."],
-  "model_quality": "MQ",
-  "resolution_boundary": "1080p",
-  "jpg_quality": 95,
-  "result_format": 0,
-  "return_url": true
-}
-```
-
-## 📊 工作流示例
-
-### 文生图（Google）
-```
-SSY Google Generator 🌟
-├─ model: google/gemini-2.5-flash-image-preview
-├─ prompt: "a beautiful sunset over mountains"
-├─ aspect_ratio: 16:9
-└─ response_modalities: IMAGE
-```
-
-### 图生图（Doubao）
-```
-Load Image → SSY Doubao Generator 🎨
-              ├─ model: bytedance/doubao-seedream-4.5
-              ├─ prompt: "transform into oil painting style"
-              ├─ size: 1024x1024
-              └─ quality: hd
-```
-
-### 图像放大
-```
-Load Image → SSY Bytedance Processor 🔧
-              ├─ model: bytedance/image_upscale
-              ├─ model_quality: HQ
-              ├─ resolution_boundary: 2k
-              └─ result_format: 0
-```
 
 ## 🔄 模型能力对照表
 
@@ -301,7 +213,7 @@ Load Image → SSY Bytedance Processor 🔧
 
 ## 🔗 链接
 
-- [SSY Cloud官方网站](https://shengsuanyun.com)
+- [SSY Cloud官方网站](https://www.shengsuanyun.com/?from=CH_TOA7WK1F)
 - [API文档](https://shengsuanyun.com/docs)
 - [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
 
