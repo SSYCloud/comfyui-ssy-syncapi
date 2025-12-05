@@ -1,0 +1,44 @@
+{
+  "1": {
+    "inputs": {
+      "prompt": "The letters have been transformed into a fuzzy style, and the background has been changed to the sky\n",
+      "operation": "generate",
+      "api_key": "$YOUR_API_KEY",
+      "batch_count": 1,
+      "temperature": 0.7,
+      "quality": "high",
+      "aspect_ratio": "1:1",
+      "character_consistency": true,
+      "enable_safety": true,
+      "reference_image_1": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "ComfyUI_NanoBanana",
+    "_meta": {
+      "title": "Nano Banana (Gemini 2.5 Flash Image)"
+    }
+  },
+  "2": {
+    "inputs": {
+      "image": "input.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "加载图像"
+    }
+  },
+  "3": {
+    "inputs": {
+      "images": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "预览图像"
+    }
+  }
+}
